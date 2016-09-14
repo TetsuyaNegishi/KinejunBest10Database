@@ -16,7 +16,6 @@ client.fetch(kinejunURL, function(err, $, res) {
 				continue;
 			}
 			if(tag.get(0).tagName === 'p'){
-				console.log('break');
 				break;
 			}
 			const janle = tag.find('p b').text();
@@ -26,6 +25,21 @@ client.fetch(kinejunURL, function(err, $, res) {
 				let title = $(this).text();
 				if (title !== '-') {
 					console.log(rank + ':' + $(this).text());
+					const titles = $(this).text().split('\n');
+					titles.forEach((val) => {
+						const title = val.match(/^.*(?=（)/)[0];
+						console.log('・' + title);
+						let director = val.match(/（.*）/);
+						director = director[director.length - 1];
+						director = director.split('（');
+						director = director[director.length - 1];
+						director = director.match(/^.*(?=）)/)[0];
+						let dire;
+						if( dire = director.match(/^.*(?=監督)/)){
+							director = dire[0];
+						}
+						console.log('・' + director);
+					})
 				}
 				rank++;
 			});
