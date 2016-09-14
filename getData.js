@@ -6,6 +6,10 @@ client.fetch(kinejunURL, function(err, $, res) {
 	$('h4').each(function(idx) {
 		console.log($(this).get(0).tagName);
         console.log($(this).text());
+		const time = $(this).text().match(/\d*(?=回)/)[0];
+		console.log(time);
+		const year = $(this).text().match(/\d*(?=年度)/)[0];
+		console.log(year);
 		let tag = $(this);
 		while (	tag = tag.next()) {
 			if(tag.get(0).tagName === 'ul') {
