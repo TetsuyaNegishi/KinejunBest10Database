@@ -8,11 +8,11 @@ const dataPath = 'data/kinejunBest10.json';
 client.fetch(kinejunURL, (err, $, res) => {
 	let datas = [];
 	$('h4').each(function(idx) {
-        // console.log($(this).text());
+		// 第？回
 		const time = $(this).text().match(/\d*(?=回)/)[0];
-		// console.log(time);
+		// ？年度
 		const year = $(this).text().match(/\d*(?=年度)/)[0];
-		// console.log(year);
+
 		let tag = $(this);
 		while (	tag = tag.next()) {
 			if(tag.get(0).tagName === 'ul') {
@@ -21,20 +21,22 @@ client.fetch(kinejunURL, (err, $, res) => {
 			if(tag.get(0).tagName === 'p'){
 				break;
 			}
+			// 日本映画or外国語映画;
 			const janle = tag.find('p b').text();
-			// console.log(janle);
+			// 順位
 			let rank = 1;
 			$('li', 'ol', tag).each(function(idx) {
 				let title = $(this).text();
 				if (title !== '-') {
-					// console.log(rank + ':' + $(this).text());
+					// タイトル（監督名）
 					const titles = $(this).text().split('\n');
+
+					// タイトルと監督名を取得
 					titles.forEach((val) => {
 						// タイトルを取得
 						const title = val.match(/^.*(?=（)/)[0];
-						// console.log('・' + title);
 
-						// 監督名を取得
+						// （監督名）を取得
 						let director = val.match(/（.*）/);
 						director = director[director.length - 1];
 						// カッコを削除
@@ -46,11 +48,10 @@ client.fetch(kinejunURL, (err, $, res) => {
 						if( dire = director.match(/^.*(?=監督)/)){
 							director = dire[0];
 						}
-						// console.log('・' + director);
 						let row = {time:time, year:year, janle:janle, rank:rank,
 							title:title, director:director };
+
 						datas.push(row);
-						// console.log(row);
 					})
 				}
 				rank++;
